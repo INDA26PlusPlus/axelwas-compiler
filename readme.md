@@ -1,6 +1,23 @@
 # Documentation
 
+
+## General
+
+All whitespace is considered a comment.
+
+Therefore these two pices of code are the same
+
+```
+]= $12345 ~+ eight times twelve      nine hundred eight fourths
+```
+
+```
+]=$12345~+eighttimestwelveninehundredeightfourths
+```
+
 ## Values
+
+So far this language has only implemented 1 byte integers. This language does not use digits to define literals but instead uses syllable-minimizing words to define Values. Below is a table of all recognized numbers in this language and how to type them to define a literal.  
 
 | Value | Numerical Value |
 | --- | --- |
@@ -260,3 +277,75 @@
 | `onethousandtwelvefourths` | 253 |
 | `fivehundredeighthalves` | 254 |
 | `fivehundredtenhalves` | 255 |
+
+## Variables
+
+Because alphabetic characters have been used to define values we instead use digits to define variables. All variables have to start with the $ sign and then followed by a unique number.
+
+Exmaple define variable named 6 with the value 24.
+```
+]= $6 six cubed ninths
+```
+
+## Operators
+
+The basic operators so far implemented are +, -, *, !, and =. All operators begin with a ~ to seperate them from other tokens. Operations use prefix notations.
+
+Exmaple subtracting 173 by 67
+```
+~- thirteen squared plus four     four cubed plus three
+```
+
+Any operator works on any expression, and since operators are themselves expressions you can use multiple at the same time.
+
+Example subtracting 173 by 67 and then checking if the result is equal to the variable 234
+```
+~= $234 ~- thirteen squared plus four     four cubed plus three
+```
+
+operators and what they do:
+
+- + works by adding two integers.
+- - works by subtracting two integers.
+- * works by multiplying two integers.
+- ! sends all values that are not zero to zero, and zero to one. ! only takes one argument.
+- = gives the value of one if two expressions are equal. Othervise zero.
+
+## Statements
+
+There are currently two statements ]= and ]p. All statements start with a ] sign to seperate them from other tokens. Statements take some expression and change the state of the program. ]= does this by changing variable values and ]p by printing something to a terminal.
+
+]= is assignment and works by taking a variable as it's left operand and an expression as it's right oprand and assigns the right hand side to the left hand side.
+
+Example assign 1 plus 1 to a variable named one:
+```
+]= $1 ~+ one one
+```
+
+]p is printing and works by printing an expression. Since all expression are numbers this statement print thoose number like text.
+
+Example print the result of 20 plus 17
+
+```
+]p ~+ twelve plus five    twenty
+```
+
+expected output:
+```
+sixsquaredplusone
+```
+
+## Control flow
+
+There are currently only two primitives for control flow ^w and ^d. All control flow starts a ^ sign to seperate them from other tokens. Control flow changes where the program is currently executing.
+
+^w is equivalent to while in other languages. ^w needs to be followed by an expression. If this expression is equal to zero the loop is not executed. After the expression statements should follow. To define where the code block inside the while block ends use ^d.
+
+Example print all numbers:
+```
+]= $1 zero
+^w ~! ~= $1 five hundred ten halves
+]= $1 ~+ $1 one
+]p $1
+^d
+```
