@@ -1,6 +1,6 @@
 //@ts-check
 
-const values = ["zero" ,"one" ,"two" ,"three" ,"four" ,"five" ,"six" ,"seven" ,"eight" ,"nine" ,"ten" ,"ten plus one" ,"twelve" ,"thirteen" ,"fourteen" ,"fifteen" ,"four squared" ,"twelve plus five" ,"eighteen" ,"nineteen" ,"twenty" ,"twelve plus nine" ,"twelve plus ten" ,"twenty-three" ,"six cubed ninths" ,"five squared" ,"twenty-six" ,"three cubed" ,"twenty-eight" ,"twenty-nine" ,"thirty" ,"thirty-one" ,"four cubed halves" ,"thirty-three" ,"thirty-four" ,"thirty-five" ,"six squared" ,"six squared plus one" ,"thirty-eight" ,"thirty-nine" ,"forty" ,"forty-one" ,"forty-two" ,"forty-three" ,"forty-four" ,"ninety halves" ,"forty-six" ,"ninety-four halves" ,"twelve squaredthirds" ,"seven squared" ,"fifty" ,"fifty-one" ,"fifty-two" ,"fifty-three" ,"six cubed fourths" ,"fifty-five" ,"fifty-six" ,"three times nineteen" ,"fifty-eight" ,"fifty-nine" ,"sixty" ,"sixty-one" ,"sixty-two" ,"sixty-three" ,"four cubed" ,"sixty-five" ,"sixty-six" ,"four cubedplus three" ,"sixty-eight" ,"sixty-nine" ,"seventy" ,"seventy-one" ,"six cubed thirds" ,"four cubed plus nine" ,"four cubed plus ten" ,"thirty squaredtwelfths" ,"four times nineteen" ,"three hundredeight fourths" ,"six times thirteen" ,"seventy-nine" ,"eighty" ,"nine squared" ,"eighty-two" ,"eighty-three" ,"eighty-four" ,"eighty-five" ,"eighty-six" ,"nine squaredplus six" ,"eighty-eight" ,"eighty-nine" ,"ninety" ,"ninety-one" ,"ninety-two" ,"ninety-three" ,"ninety-four" ,"ninety-five" ,"eight times twelve" ,"ninety-seven" ,"ninety-eight" ,"ninety-nine" ,"ten squared" ,"ten squared plus one" ,"ten squared plus two" ,"ten squaredplus three" ,"eight times thirteen" ,"ten squaredplus five" ,"ten squared plus six" ,"ninety-nineplus eight" ,"six cubed halves" ,"ten squaredplus nine" ,"ten squared plus ten" ,"six cubed halvesplus three" ,"eight times fourteen" ,"nine hundredfour eighths" ,"six times nineteen" ,"five cubed minus ten" ,"five cubedminus nine" ,"nine times thirteen" ,"two times fifty-nine" ,"five cubed minus six" ,"ten times twelve" ,"eleven squared" ,"six hundredten fifths" ,"five cubed minus two" ,"five cubed minus one" ,"five cubed" ,"nine times fourteen" ,"five cubed plus two" ,"eight cubed fourths" ,"five cubed plus four" ,"ten times thirteen" ,"five cubed plus six" ,"twelve squaredminus twelve" ,"five cubedplus eight" ,"five cubed plus nine" ,"nine times fifteen" ,"four hundredeight thirds" ,"five cubedplus twelve" ,"twelve squaredminus six" ,"twelve squaredminus five" ,"ten times fourteen" ,"twelve squaredminus three" ,"twelve squaredminus two" ,"twelve squaredminus one" ,"twelve squared" ,"twelve squaredplus one" ,"twelve squaredplus two" ,"twelve squaredplus three" ,"twelve squaredplus four" ,"twelve squaredplus five" ,"thirty squaredsixths" ,"nine hundredsix sixths" ,"eight times nineteen" ,"twelve squaredplus nine" ,"twelve squaredplus ten" ,"three hundredten halves" ,"twelve timesthirteen" ,"twelve squaredplus thirteen" ,"twelve squaredplus fourteen" ,"three timesfifty-three" ,"forty squared tenths" ,"eight hundredfive fifths" ,"six squaredsquared eighths" ,"twelve squaredplus nineteen" ,"four times forty-one" ,"five timesthirty-three" ,"two timeseighty-three" ,"two thousandfour twelfths" ,"twelve timesfourteen" ,"thirteen squared" ,"five hundredten thirds" ,"nine times nineteen" ,"four timesforty-three" ,"thirteen squaredplus four" ,"six timestwenty-nine" ,"seven hundredfourths" ,"eight timestwenty-two" ,"three timesfifty-nine" ,"two timeseighty-nine" ,"thirteen squaredplus ten" ,"thirty squaredfifths" ,"nine hundredfive fifths" ,"nine hundredten fifths" ,"three timessixty-one" ,"eight timestwenty-three" ,"five cubedplus sixty" ,"six times thirty-one" ,"fourteen squaredminus nine" ,"two timesninety-four" ,"seven timesthree cubed" ,"ten times nineteen" ,"ten cubed fifthsminus nine" ,"twelve cubed ninths" ,"twelve cubedninths plus one" ,"twelve cubedninths plus two" ,"thirteen timesfifteen" ,"fourteen squared" ,"fourteen squaredplus one" ,"nine timestwenty-two" ,"fourteen squaredplus three" ,"ten cubed fifths" ,"two hundred one" ,"two hundred two" ,"two hundred three" ,"two hundred four" ,"two hundred five" ,"two hundred six" ,"six cubed minus nine" ,"two hundred eight" ,"two hundred nine" ,"two hundred ten" ,"six cubed minus five" ,"two hundred twelve" ,"six cubedminus three" ,"six cubed minus two" ,"six cubed minus one" ,"six cubed" ,"six cubed plus one" ,"six cubed plus two" ,"six cubed plus three" ,"six cubed plus four" ,"six cubed plus five" ,"six cubed plus six" ,"six cubed plus seven" ,"six cubed plus eight" ,"fifteen squared" ,"six cubed plus ten" ,"nine hundredeight fourths" ,"twelve timesnineteen" ,"fifteen squaredplus four" ,"ten timestwenty-three" ,"fifteen squaredplus six" ,"eight timestwenty-nine" ,"fifteen squaredplus eight" ,"thirteen timeseighteen" ,"fifteen squaredplus ten" ,"four timesfifty-nine" ,"fifteen squaredplus twelve" ,"ten cubed fourthsminus twelve" ,"nine cubed thirdsminus four" ,"twelve times twenty" ,"six cubed plusfive squared" ,"forty-foursquared eighths" ,"nine cubed thirds" ,"four times sixty-one" ,"thirty-fivesquared fifths" ,"six times forty-one" ,"thirteen timesnineteen" ,"eight timesthirty-one" ,"three timeseighty-three" ,"ten cubed fourths" ,"three thousandtwelve twelfths" ,"one thousandeight fourths" ,"one thousandtwelve fourths" ,"five hundredeight halves" ,"five hundredten halves"];
+const values=["zero","one","two","three","four","five","six","seven","eight","nine","ten","tenplusone","twelve","thirteen","fourteen","fifteen","foursquared","twelveplusfive","eighteen","nineteen","twenty","twelveplusnine","twelveplusten","twentythree","sixcubedninths","fivesquared","twentysix","threecubed","twentyeight","twentynine","thirty","thirtyone","fourcubedhalves","thirtythree","thirtyfour","thirtyfive","sixsquared","sixsquaredplusone","thirtyeight","thirtynine","forty","fortyone","fortytwo","fortythree","fortyfour","ninetyhalves","fortysix","ninetyfourhalves","twelvesquaredthirds","sevensquared","fifty","fiftyone","fiftytwo","fiftythree","sixcubedfourths","fiftyfive","fiftysix","threetimesnineteen","fiftyeight","fiftynine","sixty","sixtyone","sixtytwo","sixtythree","fourcubed","sixtyfive","sixtysix","fourcubedplusthree","sixtyeight","sixtynine","seventy","seventyone","sixcubedthirds","fourcubedplusnine","fourcubedplusten","thirtysquaredtwelfths","fourtimesnineteen","threehundredeightfourths","sixtimesthirteen","seventynine","eighty","ninesquared","eightytwo","eightythree","eightyfour","eightyfive","eightysix","ninesquaredplussix","eightyeight","eightynine","ninety","ninetyone","ninetytwo","ninetythree","ninetyfour","ninetyfive","eighttimestwelve","ninetyseven","ninetyeight","ninetynine","tensquared","tensquaredplusone","tensquaredplustwo","tensquaredplusthree","eighttimesthirteen","tensquaredplusfive","tensquaredplussix","ninetyninepluseight","sixcubedhalves","tensquaredplusnine","tensquaredplusten","sixcubedhalvesplusthree","eighttimesfourteen","ninehundredfoureighths","sixtimesnineteen","fivecubedminusten","fivecubedminusnine","ninetimesthirteen","twotimesfiftynine","fivecubedminussix","tentimestwelve","elevensquared","sixhundredtenfifths","fivecubedminustwo","fivecubedminusone","fivecubed","ninetimesfourteen","fivecubedplustwo","eightcubedfourths","fivecubedplusfour","tentimesthirteen","fivecubedplussix","twelvesquaredminustwelve","fivecubedpluseight","fivecubedplusnine","ninetimesfifteen","fourhundredeightthirds","fivecubedplustwelve","twelvesquaredminussix","twelvesquaredminusfive","tentimesfourteen","twelvesquaredminusthree","twelvesquaredminustwo","twelvesquaredminusone","twelvesquared","twelvesquaredplusone","twelvesquaredplustwo","twelvesquaredplusthree","twelvesquaredplusfour","twelvesquaredplusfive","thirtysquaredsixths","ninehundredsixsixths","eighttimesnineteen","twelvesquaredplusnine","twelvesquaredplusten","threehundredtenhalves","twelvetimesthirteen","twelvesquaredplusthirteen","twelvesquaredplusfourteen","threetimesfiftythree","fortysquaredtenths","eighthundredfivefifths","sixsquaredsquaredeighths","twelvesquaredplusnineteen","fourtimesfortyone","fivetimesthirtythree","twotimeseightythree","twothousandfourtwelfths","twelvetimesfourteen","thirteensquared","fivehundredtenthirds","ninetimesnineteen","fourtimesfortythree","thirteensquaredplusfour","sixtimestwentynine","sevenhundredfourths","eighttimestwentytwo","threetimesfiftynine","twotimeseightynine","thirteensquaredplusten","thirtysquaredfifths","ninehundredfivefifths","ninehundredtenfifths","threetimessixtyone","eighttimestwentythree","fivecubedplussixty","sixtimesthirtyone","fourteensquaredminusnine","twotimesninetyfour","seventimesthreecubed","tentimesnineteen","tencubedfifthsminusnine","twelvecubedninths","twelvecubedninthsplusone","twelvecubedninthsplustwo","thirteentimesfifteen","fourteensquared","fourteensquaredplusone","ninetimestwentytwo","fourteensquaredplusthree","tencubedfifths","twohundredone","twohundredtwo","twohundredthree","twohundredfour","twohundredfive","twohundredsix","sixcubedminusnine","twohundredeight","twohundrednine","twohundredten","sixcubedminusfive","twohundredtwelve","sixcubedminusthree","sixcubedminustwo","sixcubedminusone","sixcubed","sixcubedplusone","sixcubedplustwo","sixcubedplusthree","sixcubedplusfour","sixcubedplusfive","sixcubedplussix","sixcubedplusseven","sixcubedpluseight","fifteensquared","sixcubedplusten","ninehundredeightfourths","twelvetimesnineteen","fifteensquaredplusfour","tentimestwentythree","fifteensquaredplussix","eighttimestwentynine","fifteensquaredpluseight","thirteentimeseighteen","fifteensquaredplusten","fourtimesfiftynine","fifteensquaredplustwelve","tencubedfourthsminustwelve","ninecubedthirdsminusfour","twelvetimestwenty","sixcubedplusfivesquared","fortyfoursquaredeighths","ninecubedthirds","fourtimessixtyone","thirtyfivesquaredfifths","sixtimesfortyone","thirteentimesnineteen","eighttimesthirtyone","threetimeseightythree","tencubedfourths","threethousandtwelvetwelfths","onethousandeightfourths","onethousandtwelvefourths","fivehundredeighthalves","fivehundredtenhalves"];
 const operations = {
     "~+": () => {},
     "~-": () => {},
@@ -53,6 +53,12 @@ function tokenStart(char) {
         return tokenOperation;
     } 
 
+    const alphabetic = "abcdefghijklmnopqrstuvwxyz-";
+
+    if (alphabetic.split("").includes(char)) {
+        return tokenValue;
+    }
+
     return undefined;
 }
 
@@ -60,23 +66,89 @@ function tokenStart(char) {
 /**
  * 
  * @param {String} program
- * @returns {Token[]} 
+ * @returns {Token[] | string} 
  */
 function tokenize(program) {
+    /**
+     * @type {Token[]}
+     */
     let ret = [];
     /**
      * @type {Token}
      */
     let currentToken = {type: undefined, text: ""};
     for (let i = 0; i < program.length; i++) {
-        let start = tokenStart(program[i]);
-        if (start !== undefined) {
-            ret.push(currentToken);
-            currentToken = {type: start, text: program[i]};
-        } else {
-            currentToken = {text: `${currentToken.text}${program[i]}`, type: currentToken.type};
+        if (program[i].trim() === "") {
+            continue;
         }
+        let start = tokenStart(program[i]);
         
+        if (start === tokenKeyword || start === tokenState || start === tokenOperation) {
+            // Must be 2 char word
+
+            let char1 = program[i];
+            i += 1;
+            let char2 = program[i];
+
+            ret.push({
+                type: start,
+                text: `${char1}${char2}`
+            });
+            continue;
+
+        } else if (start === tokenVariable) {
+            let whole = "";
+
+            do {
+                if (program[i].trim() !== "") {
+                    whole = whole + program[i];
+                }
+                i += 1;
+
+                if (program[i] === undefined) break;
+            } while (tokenStart(program[i]) === undefined);
+
+            ret.push({
+                type: start,
+                text: whole
+            });
+            i -= 1;
+            continue;
+        } else if (start === tokenValue) {
+            let whole = "";
+
+            let oldi = i;
+            do {
+                if (program[i].trim() !== "") {
+                    whole = whole + program[i];
+                }
+                i += 1;
+                if (program[i] === undefined) break;
+            } while (program[i].trim() === "" || tokenStart(program[i]) === tokenValue);
+
+            const toIndex = (() => {
+                for (let i = whole.length; i > 0; i--) {
+                    const possible = values.indexOf(whole.substring(0, i));
+                    if (possible !== -1) {
+                        return i;
+                    }
+                }
+                return -1;
+            })();
+            
+            if (toIndex == -1) {
+                return `value: ${whole} was not a valid value. Please consult the readme for valid values.`;
+            }
+
+            i = oldi + (toIndex - 1);
+            
+            ret.push({
+                type: tokenValue,
+                text: whole.substring(0, toIndex)
+            });
+        } else {
+            console.error("internal error. Ignoring");
+        }
     }
 
     return ret;
@@ -99,7 +171,7 @@ function parseVariable(tokens, from) {
             next: from + 1
         };
     } 
-    return {error: `Unexpected token. Found ${tokens[from].text}. Expected a variable`};
+    return {error: `Unexpected token. At token ${from}. Found ${tokens[from].text}. Expected a variable`};
 }
 
 /**
@@ -159,7 +231,7 @@ function parseExpression(tokens, from) {
         }
     } 
     return {
-        error: `Unexpected token. Found:: ${tokens[from].text}. Expected an expression`
+        error: `Unexpected token. At token ${from}. Found:: ${tokens[from].text}. Expected an expression`
     };
 
 }
@@ -192,7 +264,7 @@ function parseStatement(tokens, from) {
         };
 
     } else if (tokens[from].text === "]p") {
-        let left = parseExpression(tokens, from);
+        let left = parseExpression(tokens, from + 1);
         if ("error" in left) return left;
         return {
             result: {
@@ -203,7 +275,7 @@ function parseStatement(tokens, from) {
         };
     }
 
-    return {error: `Unexpected token. Found ${tokens[from].text}. Expected statement`};
+    return {error: `Unexpected token. At token ${from}. Found ${tokens[from].text}. Expected statement`};
 
 }
 
@@ -222,6 +294,10 @@ function parseBody(tokens, from) {
     let current = from;
 
     while (true) {
+        if (tokens[current] === undefined) {
+            break;
+        }
+
         if (tokens[current].type == tokenState) {
             const statement = parseStatement(tokens, current);
             if ("error" in statement) {
@@ -245,23 +321,35 @@ function parseBody(tokens, from) {
                     condition: condition.result,
                     body: body.result
                 });
+                current = body.next;
             } else {
-                return {error: `Unexpected token. Found ${tokens[current].text}. Expected keyword`};
+                return {error: `Unexpected token. At token ${from}. Found ${tokens[current].text}. Expected keyword`};
             }
         } else {
             return {error: `Unexpected token when parsing body: ${tokens[current].text}. Expected statement`};
         }
     }
 
-    
+    return {
+        result: ret,
+        next: -1
+    };
 }
 
 /**
  * 
  * @param {Token[]} tokens 
+ * 
+ * @returns {Parseresult<ProgramBody>}
  */
 function intoTree(tokens) {
-    
+    const mainBody = parseBody(tokens, 0);
+
+    if ("error" in mainBody) {
+        console.error(mainBody.error);
+    } 
+
+    return mainBody;
 }
 
 /**
@@ -270,8 +358,13 @@ function intoTree(tokens) {
  */
 function compile(program) {
     const tokens = tokenize(program);
-
+    if (typeof tokens === "string") {
+        console.error("error parsing tokens:", tokens);
+        return;
+    }
     console.log(tokens);
+    const body = intoTree(tokens);
+    console.log(body);
     
 }
 
