@@ -12,20 +12,20 @@
     </style>
 </head>
 <body>
-    <script src="/script.js"></script>
+    <script src="/script.js" type="module"></script>
     <textarea id="code">
-$100]=nought
-$101]=one
-$102]=one
-$103]=a-score
+]=$100nought
+]=$101one
+]=$102one
+]=$103a-score
 
 ^w
-$100$2$3~+]=
-$101$3]=
-$102$1]=
-$103$103~+one]=
-$100$2
-^d $103nought~=~!
+]=$100~+$101$102
+]=$101$102
+]=$102$100
+]=$103~-$103one
+]p$100
+^d ~!~=$103nought
 </textarea>
 <button id="compile">Compile!</button>
 </body>

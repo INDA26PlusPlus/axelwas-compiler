@@ -25,11 +25,15 @@ export const tokenState = Symbol("tokenState");
 export const tokenKeyword = Symbol("tokenKeyword");
 /** @type {unique symbol} */
 export const tokenOperation = Symbol("tokenOperation");
+/** @type {unique symbol} */
+export const tokenValue = Symbol("tokenValue");
 
 /**
- * @typedef {typeof tokenVariable | typeof tokenState | typeof tokenKeyword | typeof tokenOperation} TokenTypes
+ * @typedef {typeof tokenVariable | typeof tokenState | typeof tokenKeyword | typeof tokenOperation | typeof tokenValue} TokenTypes
  */
-
+/**
+ * @typedef {{type: TokenTypes | undefined, text: String}} Token
+ */
 
 
 /**
@@ -47,7 +51,7 @@ function tokenStart(char) {
         return tokenState;
     } else if (char === "~") {
         return tokenOperation;
-    }
+    } 
 
     return undefined;
 }
@@ -56,12 +60,12 @@ function tokenStart(char) {
 /**
  * 
  * @param {String} program
- * @returns {{type: TokenTypes | undefined, text: String}[]} 
+ * @returns {Token[]} 
  */
 function tokenize(program) {
     let ret = [];
     /**
-     * @type {{type: TokenTypes | undefined, text: String}}
+     * @type {Token}
      */
     let currentToken = {type: undefined, text: ""};
     for (let i = 0; i < program.length; i++) {
@@ -80,12 +84,194 @@ function tokenize(program) {
 
 /**
  * 
+ * @param {Token[]} tokens 
+ * @param {number} from
+ * 
+ * @returns {Parseresult<Variable>}
+ */
+function parseVariable(tokens, from) {
+    if (tokens[from].type === tokenVariable) {
+        return {
+            result: {
+                type: "Variable",
+                identifier: tokens[from].text
+            },
+            next: from + 1
+        };
+    } 
+    return {error: `Unexpected token. Found ${tokens[from].text}. Expected a variable`};
+}
+
+/**
+ * 
+ * @param {Token[]} tokens 
+ * @param {number} from
+ * 
+ * @returns {Parseresult<Expression>}
+ */
+function parseExpression(tokens, from) {
+    if (tokens[from].type === tokenVariable) {
+        return parseVariable(tokens, from);
+    } else if (tokens[from].type === tokenValue) {
+        const value = values.findIndex(s => s === tokens[from].text);
+        if (value === -1) {
+            return {
+                error: `Expected Literal. Found: ${tokens[from].text}. Consult the readme document for valid literals.`
+            };
+        }
+
+        return {
+            result: {
+                type: "Literal",
+                value: value
+            },
+            next: from + 1
+        };
+    } else if(tokens[from].type === tokenOperation) {
+        const allOperations = Object.keys(operations);
+        if (tokens[from].text == "~!") {
+            const left = parseExpression(tokens, from + 1);
+            if ("error" in left) return left;
+            return {
+                result: {
+                    type: "ArithmeticExpression",
+                    operator: "!",
+                    left: left.result
+                },
+                next: left.next
+            };
+        } else if (allOperations.includes(tokens[from].text)) {
+            const left = parseExpression(tokens, from + 1);
+            if ("error" in left) return left;
+            const right = parseExpression(tokens, left.next);
+            if ("error" in right) return right;
+
+            const op = /** @type {"*" | "+" | "-" | "="} */ (tokens[from].text[1]);
+            return {
+                result: {
+                    type: "ArithmeticExpression",
+                    operator: op,
+                    left: left.result,
+                    right: right.result
+                },
+                next: right.next
+            };
+        }
+    } 
+    return {
+        error: `Unexpected token. Found:: ${tokens[from].text}. Expected an expression`
+    };
+
+}
+
+/**
+ * 
+ * @param {Token[]} tokens 
+ * @param {number} from
+ * 
+ * @returns {Parseresult<Statement>}
+ */
+function parseStatement(tokens, from) {
+    if (tokens[from].type !== tokenState) {
+        return {error: `Unexpeted token. Found: ${tokens[from].text}. Expected a statement`}
+    }
+
+    if (tokens[from].text === "]=") {
+        let left = parseVariable(tokens, from + 1);
+        if ("error" in left) return left;
+        let right = parseExpression(tokens, left.next);
+        if ("error" in right) return right;
+
+        return {
+            result: {
+                type: "VariableStatement",
+                left: left.result,
+                right: right.result
+            },
+            next: right.next
+        };
+
+    } else if (tokens[from].text === "]p") {
+        let left = parseExpression(tokens, from);
+        if ("error" in left) return left;
+        return {
+            result: {
+                type: "PrintStatement",
+                left: left.result
+            },
+            next: left.next
+        };
+    }
+
+    return {error: `Unexpected token. Found ${tokens[from].text}. Expected statement`};
+
+}
+
+/**
+ * 
+ * @param {Token[]} tokens 
+ * @param {number} from
+ * 
+ * @returns {Parseresult<ProgramBody>}
+ */
+function parseBody(tokens, from) {
+    /**
+     * @type {ProgramBody}
+     */
+    let ret = [];
+    let current = from;
+
+    while (true) {
+        if (tokens[current].type == tokenState) {
+            const statement = parseStatement(tokens, current);
+            if ("error" in statement) {
+                return statement;
+            }
+            ret.push(statement.result);
+            current = statement.next;
+        } else if (tokens[current].type === tokenKeyword) {
+            if (tokens[current].text === "^d") {
+                return {
+                    result: ret,
+                    next: current + 1
+                };
+            } else if (tokens[current].text === "^w") {
+                let condition = parseExpression(tokens, current + 1);
+                if ("error" in condition) return condition;
+                let body = parseBody(tokens, condition.next);
+                if ("error" in body) return body;
+                ret.push({
+                    type: "WhileLoop",
+                    condition: condition.result,
+                    body: body.result
+                });
+            } else {
+                return {error: `Unexpected token. Found ${tokens[current].text}. Expected keyword`};
+            }
+        } else {
+            return {error: `Unexpected token when parsing body: ${tokens[current].text}. Expected statement`};
+        }
+    }
+
+    
+}
+
+/**
+ * 
+ * @param {Token[]} tokens 
+ */
+function intoTree(tokens) {
+    
+}
+
+/**
+ * 
  * @param {String} program
  */
 function compile(program) {
     const tokens = tokenize(program);
 
-    
+    console.log(tokens);
     
 }
 
