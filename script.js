@@ -342,7 +342,7 @@ function parseBody(tokens, from) {
  * 
  * @returns {Parseresult<ProgramBody>}
  */
-function intoTree(tokens) {
+export function intoTree(tokens) {
     const mainBody = parseBody(tokens, 0);
 
     if ("error" in mainBody) {
@@ -354,26 +354,146 @@ function intoTree(tokens) {
 
 /**
  * 
- * @param {String} program
+ * @param {Variable} variable
+ * @returns {string} 
  */
-function compile(program) {
+function resolveVariable(variable) {
+    return `%x${variable.identifier}`;
+}
+
+
+/**
+ * 
+ * @param {Expression} left 
+ * @returns {ExpressionIR}
+*/
+function resolveNotExpression(left) {
+    let res = resolveExpression(left);
+    if (typeof res === "number") {
+        return Number((res === 0)); 
+    }
+
+    const toAppend = `%t${res.onIdent + 1} =b ceqb 0, ${res.ident}\n`;
+    
+    return {
+        ident: `%t${res.onIdent + 1}`,
+        onIdent: res.onIdent + 1,
+        toAppend: res.toAppend + toAppend
+    };
+}
+
+/**
+ * 
+ * @param {"+" | "-" | "*" | "="} op 
+ * @returns {string}
+ */
+function resolveOpKeyword(op) {
+    if (op === "*") {
+        return "mul";
+    }
+    if (op === "+") {
+        return "add";
+    }
+    if (op === "-") {
+        return "sub";
+    }
+    
+    return "ceqb";
+    
+}
+
+/**
+ * 
+ * @param {Expression} left 
+ * @param {Expression} right 
+ * @param {"+" | "-" | "*" | "="} op 
+ * 
+ * @returns {ExpressionIR}
+ */
+function resolveArithExpression(left, right, op) {
+    const leftRes = resolveExpression(left);
+    const rightRes = resolveExpression(right); 
+
+    if (typeof leftRes === "number" && typeof rightRes === "number") {
+        if (op === "+") {
+            return (leftRes + rightRes) % 256;
+        } 
+        if (op === "-") {
+            return (leftRes - rightRes) % 256;
+        }
+        if (op === "*") {
+            return (leftRes * rightRes) % 256;
+        }
+        if (op === "=") {
+            return Number(leftRes === rightRes);
+        }
+    }
+
+    const leftVal = typeof leftRes === "number" ? String(leftRes) : leftRes.ident;
+    const rightVal = typeof rightRes === "number" ? String(rightRes) : rightRes.ident;
+    const keyword = resolveOpKeyword(op);
+    const nextIdent = Math.max(typeof leftRes === "number" ? 0 : leftRes.onIdent + 1, typeof rightRes === "number" ? 0 : rightRes.onIdent + 1);
+    
+    const leftAppend = typeof leftRes === "number" ? "" : leftRes.toAppend;
+    const rightAppend = typeof rightRes === "number" ? "" : rightRes.toAppend;
+    const toAppend = `%t${nextIdent} =b ${keyword} ${leftVal}, ${rightVal}\n`;
+
+    return {
+        ident: `%t${nextIdent}`,
+        onIdent: nextIdent,
+        toAppend: leftAppend + rightAppend + toAppend
+    };
+}
+
+/**
+ * 
+ * @param {Expression} expression
+ * @returns {ExpressionIR} 
+ */
+function resolveExpression(expression) {
+    if (expression.type === "Variable") {
+        return { ident: resolveVariable(expression), onIdent: 0, toAppend: "" };
+    } else if (expression.type === "Literal") {
+        return expression.value;
+    } else {
+        if (expression.operator === "!") {
+            return resolveNotExpression(expression.left);
+        } else {
+            return resolveArithExpression(expression.left, expression.right, expression.operator);
+        }
+    }
+}
+
+/**
+ * 
+ * @param {ProgramBody} body 
+ */
+function intoIL(body) {
+    for (const statement of body) {
+        if (statement.type == "VariableStatement") {
+            statement.
+        }
+    }
+}
+
+/**
+ * 
+ * @param {String} program
+ * 
+ * @returns {Parseresult<ProgramBody>}
+ */
+export function compile(program) {
     const tokens = tokenize(program);
     if (typeof tokens === "string") {
         console.error("error parsing tokens:", tokens);
-        return;
+        return {error: tokens};
     }
     console.log(tokens);
     const body = intoTree(tokens);
     console.log(body);
+
+    return body;
     
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("compile")?.addEventListener("mousedown", () => {
-        const textarea = document.getElementById("code");
-
-        if (textarea instanceof HTMLTextAreaElement) {
-            compile(textarea.value)
-        }
-    });
-});
+    

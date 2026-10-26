@@ -43,3 +43,5 @@ type WhileLoop = {
 };
 
 type Parseresult<T> = {error: string} | {result: T, next: number};
+
+type ExpressionIR = { ident: string, onIdent: number, toAppend: string } | number;

@@ -12,7 +12,19 @@
     </style>
 </head>
 <body>
-    <script src="/script.js" type="module"></script>
+    <script type="module">
+        import { compile } from "/script.js";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("compile")?.addEventListener("mousedown", () => {
+                const textarea = document.getElementById("code");
+
+                if (textarea instanceof HTMLTextAreaElement) {
+                    compile(textarea.value)
+                }
+            });
+        });
+    </script>
     <textarea id="code">
 ]=$100zero
 ]=$101one
