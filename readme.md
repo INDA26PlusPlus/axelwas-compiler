@@ -17,7 +17,7 @@ Therefore these two pices of code are the same
 
 ## Values
 
-So far this language has only implemented 1 byte integers. This language does not use digits to define literals but instead uses syllable-minimizing words to define Values. Below is a table of all recognized numbers in this language and how to type them to define a literal.  
+This language has only implemented 4 byte integers (a word). This language does not use digits to define literals but instead uses syllable-minimizing words to define Values. Below is a table of all numbers  you can type as a literal in this language and how to type them to define it.  
 
 | Value | Numerical Value |
 | --- | --- |
@@ -322,7 +322,7 @@ Example assign 1 plus 1 to a variable named one:
 ]= $1 ~+ one one
 ```
 
-]p is printing and works by printing an expression. Since all expression are numbers this statement print thoose number like text.
+]p is printing and works by printing an expression. Since all expression are numbers this statement just prints the number.
 
 Example print the result of 20 plus 17
 
@@ -332,7 +332,7 @@ Example print the result of 20 plus 17
 
 expected output:
 ```
-sixsquaredplusone
+37
 ```
 
 ## Control flow

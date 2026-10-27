@@ -543,8 +543,6 @@ function bodyIntoIL(body) {
  */
 function ILPrelude(mainBlock) {
 
-    // const dataBlock = `{ ${values.map(v => `b "${v}\\n", b 0, `).reduce((p, c) => p + c).slice(0,)} } `;
-
     return `
 data $default = { b "%i\\n", b 0}
 
