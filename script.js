@@ -464,23 +464,81 @@ function resolveExpression(expression) {
     }
 }
 
+
+let onBlock = 0;
+/**
+ * @returns {string}
+ */
+function generateUniqueBlockName() {
+    return "@" + String(onBlock);
+}
+
 /**
  * 
  * @param {ProgramBody} body 
+ * 
+ * @returns {string}
  */
-function intoIL(body) {
+function bodyIntoIL(body) {
+    let ret = "";
+
     for (const statement of body) {
         if (statement.type == "VariableStatement") {
-            statement.
+            const expr = resolveExpression(statement.right);
+            const val = typeof expr === "number" ? Number(expr) : expr.ident;
+            const toAppend = `%x${statement.left.identifier} =b ${val}`;
+            if (typeof expr !== "number") {
+                ret = ret + expr.toAppend;
+            }
+            ret = ret + toAppend;
+        } else if (statement.type == "WhileLoop") {
+            const insideBody = bodyIntoIL(statement.body);
+            const exp = resolveExpression(statement.condition);
+            const labelStart = generateUniqueBlockName();
+            const labelEnd = generateUniqueBlockName();
+
+            let code;
+            if (typeof exp === "number") {
+                code = exp !== 0 ? `${labelStart}\n` + 
+                `${insideBody}` +
+                `jmp ${labelStart}\n` + 
+                `${labelEnd}\n` : "";
+
+            } else {
+                code =  
+                `${exp.toAppend}` + 
+                `jnz ${exp.ident} ${labelStart} ${labelEnd}\n` + 
+                `${labelStart}\n` +
+                `${insideBody}` + 
+                `${exp.toAppend}` + 
+                `jnz ${exp.ident} ${labelStart} ${labelEnd}\n` + 
+                `${labelEnd}\n`;
+            }
+
+            ret = ret + code;
+        } else {
+            let code = "";
+
+            const exp = resolveExpression(statement.left);
+            if (typeof exp === "number") {
+                code = `%r =w call $print(b ${exp})\n`;
+            } else {
+                code = `${exp.toAppend}` + 
+                `%r =w call $print(b ${exp.ident})\n`;
+            }
+
+            ret = ret + code;
         }
     }
+
+    return ret;
 }
 
 /**
  * 
  * @param {String} program
  * 
- * @returns {Parseresult<ProgramBody>}
+ * @returns {string | Parseresult<never>}
  */
 export function compile(program) {
     const tokens = tokenize(program);
@@ -490,9 +548,16 @@ export function compile(program) {
     }
     console.log(tokens);
     const body = intoTree(tokens);
-    console.log(body);
+    if ("error" in body) {
+        console.error(body);
+        return body;
+    }
 
-    return body;
+    const IL = bodyIntoIL(body.result);
+
+    console.log(IL);
+
+    return IL;
     
 }
 
