@@ -166,7 +166,7 @@ function parseVariable(tokens, from) {
         return {
             result: {
                 type: "Variable",
-                identifier: tokens[from].text
+                identifier: tokens[from].text.substring(1, tokens[from].text.length)
             },
             next: from + 1
         };
@@ -373,7 +373,7 @@ function resolveNotExpression(left) {
         return Number((res === 0)); 
     }
 
-    const toAppend = `%t${res.onIdent + 1} =b ceqb 0, ${res.ident}\n`;
+    const toAppend = `%t${res.onIdent + 1} =w ceqw 0, ${res.ident}\n`;
     
     return {
         ident: `%t${res.onIdent + 1}`,
@@ -398,7 +398,7 @@ function resolveOpKeyword(op) {
         return "sub";
     }
     
-    return "ceqb";
+    return "ceqw";
     
 }
 
@@ -436,7 +436,7 @@ function resolveArithExpression(left, right, op) {
     
     const leftAppend = typeof leftRes === "number" ? "" : leftRes.toAppend;
     const rightAppend = typeof rightRes === "number" ? "" : rightRes.toAppend;
-    const toAppend = `%t${nextIdent} =b ${keyword} ${leftVal}, ${rightVal}\n`;
+    const toAppend = `%t${nextIdent} =w ${keyword} ${leftVal}, ${rightVal}\n`;
 
     return {
         ident: `%t${nextIdent}`,
@@ -470,7 +470,8 @@ let onBlock = 0;
  * @returns {string}
  */
 function generateUniqueBlockName() {
-    return "@" + String(onBlock);
+    onBlock += 1;
+    return "@block" + String(onBlock);
 }
 
 /**
@@ -486,7 +487,7 @@ function bodyIntoIL(body) {
         if (statement.type == "VariableStatement") {
             const expr = resolveExpression(statement.right);
             const val = typeof expr === "number" ? Number(expr) : expr.ident;
-            const toAppend = `%x${statement.left.identifier} =b ${val}`;
+            const toAppend = `%x${statement.left.identifier} =w copy ${val}\n`;
             if (typeof expr !== "number") {
                 ret = ret + expr.toAppend;
             }
@@ -507,11 +508,11 @@ function bodyIntoIL(body) {
             } else {
                 code =  
                 `${exp.toAppend}` + 
-                `jnz ${exp.ident} ${labelStart} ${labelEnd}\n` + 
+                `jnz ${exp.ident}, ${labelStart}, ${labelEnd}\n` + 
                 `${labelStart}\n` +
                 `${insideBody}` + 
                 `${exp.toAppend}` + 
-                `jnz ${exp.ident} ${labelStart} ${labelEnd}\n` + 
+                `jnz ${exp.ident}, ${labelStart}, ${labelEnd}\n` + 
                 `${labelEnd}\n`;
             }
 
@@ -521,10 +522,10 @@ function bodyIntoIL(body) {
 
             const exp = resolveExpression(statement.left);
             if (typeof exp === "number") {
-                code = `%r =w call $print(b ${exp})\n`;
+                code = `%r =w call $printBS(w ${exp})\n`;
             } else {
                 code = `${exp.toAppend}` + 
-                `%r =w call $print(b ${exp.ident})\n`;
+                `%r =w call $printBS(w ${exp.ident})\n`;
             }
 
             ret = ret + code;
@@ -532,6 +533,33 @@ function bodyIntoIL(body) {
     }
 
     return ret;
+}
+
+/**
+ * 
+ * @param {string} mainBlock
+ * 
+ * @returns {string} 
+ */
+function ILPrelude(mainBlock) {
+
+    // const dataBlock = `{ ${values.map(v => `b "${v}\\n", b 0, `).reduce((p, c) => p + c).slice(0,)} } `;
+
+    return `
+data $default = { b "%i\\n", b 0}
+
+function w $printBS(w %arg) {
+@printstart
+%r =w call $printf(l $default, w %arg)
+ret 0   
+}
+
+export function w $main() {
+@start
+${mainBlock}
+ret 0
+}
+`;
 }
 
 /**
@@ -556,8 +584,8 @@ export function compile(program) {
     const IL = bodyIntoIL(body.result);
 
     console.log(IL);
-
-    return IL;
+    console.log(ILPrelude(IL));
+    return ILPrelude(IL);
     
 }
 
