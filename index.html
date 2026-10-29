@@ -15,12 +15,30 @@
     <script type="module">
         import { compile } from "/script.js";
 
+        function escapeHtml(str) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return str.replace(/[&<>"']/g, (m) => map[m]);
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("compile")?.addEventListener("mousedown", () => {
                 const textarea = document.getElementById("code");
 
                 if (textarea instanceof HTMLTextAreaElement) {
-                    compile(textarea.value)
+                    const result = compile(textarea.value);
+
+                    const toAdd = `
+                        <h1>Compiled program to QBE IL</h1>
+                        <pre style="padding: 12px; border: 1px solid black;">${escapeHtml(result)}</pre>
+                    `;
+
+                    document.getElementById("result").innerHTML = toAdd;
                 }
             });
         });
@@ -40,5 +58,6 @@
 ^d 
 </textarea>
 <button id="compile">Compile!</button>
+<div id="result"></div>
 </body>
 </html>
